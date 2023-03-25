@@ -121,7 +121,7 @@ jobs:
         working-directory: build/WebGL
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: github-pages-build
           folder: build/WebGL
