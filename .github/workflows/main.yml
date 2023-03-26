@@ -33,9 +33,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: Library
-          key: Library-2dbattlegame
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
-            Library-2dbattlegame-
             Library-
       # Test
       - name: Run tests
