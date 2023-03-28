@@ -1,18 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : MonoBehaviour
+public class Hero : Character
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public void Heal()
     {
-        
+        throw new NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpgradeHealth()
     {
-        
+        throw new NotImplementedException();
+    }
+
+    public void UpgradeAttack()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RespawnHero()
+    {
+        throw new NotImplementedException();
     }
 }
