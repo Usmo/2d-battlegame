@@ -12,11 +12,19 @@ public class Character : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
+        // Deduct damageAmount from healthPoints
+        healthPoints -= damageAmount;
 
+        // Set health to zero if it reduced below zero
+        if (healthPoints < 0)
+        {
+            healthPoints = 0;
+        }
     }
     public void Attack(Character target)
     {
-
+        // Deal attackPoints amount of damage to target
+        target.TakeDamage(attackPoints);
     }
 
 }
