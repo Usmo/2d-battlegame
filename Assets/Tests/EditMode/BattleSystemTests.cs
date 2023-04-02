@@ -30,6 +30,9 @@ public class BattleSystemTests
         battleSystem = battleSystemGameObject.GetComponent<BattleSystem>();
         battleSystem.hero = hero;
         battleSystem.enemy = enemy;
+        battleSystem.playerActionCanvas = playerActionCanvas;
+        battleSystem.playerUpgradeCanvas = playerUpgradeCanvas;
+        battleSystem.endScreenCanvas = endScreenCanvas;
     }
 
     [TearDown]
@@ -61,6 +64,7 @@ public class BattleSystemTests
     public void HeroHealSelected_healsHero()
     {
         // ARRANGE
+        battleSystem.hero.maxHealthPoints = 50f;
         battleSystem.hero.healthPoints = 20f;
 
         // ACT
@@ -215,6 +219,7 @@ public class BattleSystemTests
     {
         // ARRANGE
         battleSystem.hero.healthPoints = 10f;
+        battleSystem.enemy.startingHealthPoints = 10f;
         battleSystem.enemy.healthPoints = 0f;
 
         // ACT
@@ -225,7 +230,7 @@ public class BattleSystemTests
     }
 
     [Test]
-    public void EndTurnAndMoveToNextTurn_IfCharactersAreAliveAndTurnStateIs_PLAYER_TURN_SetTurnStateTo_ENEMY_TURN()
+    public void EndTurnAndMoveToNextTurn_IfCharactersAreAliveAndTurnStateIs_PLAYER_TURN_SetAndDoEnemyTurnAndSetTurnBackTo_PLAYER_TURN()
     {
         // ARRANGE
         battleSystem.turnState = BattleSystem.TurnState.PLAYER_TURN;
@@ -236,7 +241,7 @@ public class BattleSystemTests
         battleSystem.EndTurnAndMoveToNextTurn();
 
         // ASSERT
-        Assert.AreEqual(BattleSystem.TurnState.ENEMY_TURN, battleSystem.turnState);
+        Assert.AreEqual(BattleSystem.TurnState.PLAYER_TURN, battleSystem.turnState);
     }
 
     [Test]
