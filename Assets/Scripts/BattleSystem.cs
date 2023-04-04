@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -12,15 +13,21 @@ public class BattleSystem : MonoBehaviour
         PLAYER_TURN,
         ENEMY_TURN,
         PLAYER_UPGRADE,
-        END
+        END,
+        PLAYER_UPGRADE_DONE
     }
     public TurnState turnState;
     public int defeatedEnemyCount = 0;
 
+    // UI variables
     public GameObject playerActionCanvas;
     public GameObject playerUpgradeCanvas;
     public GameObject endScreenCanvas;
-    
+
+    public Text heroStatsText;
+    public Text enemyStatsText;
+    public Text endText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +37,7 @@ public class BattleSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        SetStatTextsForBothCharacters();
     }
 
     public void EnemyAttacksHero()
@@ -75,6 +82,7 @@ public class BattleSystem : MonoBehaviour
         HideActionButtons();
 
         // End Upgrade turn phase
+        turnState = TurnState.PLAYER_UPGRADE_DONE;
         EndTurnAndMoveToNextTurn();
     }
 
@@ -87,6 +95,7 @@ public class BattleSystem : MonoBehaviour
         HideActionButtons();
 
         // End Upgrade turn phase
+        turnState = TurnState.PLAYER_UPGRADE_DONE;
         EndTurnAndMoveToNextTurn();
     }
 
@@ -133,7 +142,7 @@ public class BattleSystem : MonoBehaviour
 
             // Respawn enemy with defeated enemy counter modifier
             enemy.RespawnEnemy(defeatedEnemyCount);
-        } 
+        }
         else
         {
             // Change turnState if both characters are alive
@@ -143,6 +152,11 @@ public class BattleSystem : MonoBehaviour
             }
             else if (turnState == TurnState.ENEMY_TURN)
             {
+                turnState = TurnState.PLAYER_TURN;
+            }
+            else if (turnState == TurnState.PLAYER_UPGRADE_DONE)
+            {
+                // Change to PLAYER_TURN after upgrade is done
                 turnState = TurnState.PLAYER_TURN;
             }
         }
@@ -178,6 +192,12 @@ public class BattleSystem : MonoBehaviour
         // Set turn state to END
         turnState = TurnState.END;
 
+        // Update EndText if it is assigned
+        if (endText != null)
+        {
+            endText.text = "Game over! Defeated advesaries: " + defeatedEnemyCount;
+        }
+
         // Activate end screen
         endScreenCanvas.SetActive(true);
     }
@@ -199,5 +219,20 @@ public class BattleSystem : MonoBehaviour
 
         // Show player action buttons
         ShowActionButtons();
+    }
+
+    void SetStatTextsForBothCharacters()
+    {
+        // Round stat numbers and update text element for enemy
+        double roundedHP = Math.Round(enemy.healthPoints, 1);
+        double roundedMaxHP = Math.Round(enemy.maxHealthPoints, 1);
+        double roundedAttack = Math.Round(enemy.attackPoints, 1);
+        enemyStatsText.text = "Enemy attack: " + roundedAttack + " Enemy HP: " + roundedHP + "/" + roundedMaxHP;
+
+        // Round stat numbers and update text element for hero
+        roundedHP = Math.Round(hero.healthPoints, 1);
+        roundedMaxHP = Math.Round(hero.maxHealthPoints, 1);
+        roundedAttack = Math.Round(hero.attackPoints, 1);
+        heroStatsText.text = "Hero attack: " + roundedAttack + " Hero HP: " + roundedHP + "/" + roundedMaxHP;
     }
 }
