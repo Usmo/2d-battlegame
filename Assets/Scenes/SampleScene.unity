@@ -2925,6 +2925,7 @@ MonoBehaviour:
   enemy: {fileID: 1501415927}
   turnState: 0
   defeatedEnemyCount: 0
+  delayBetweenTurns: 0
   playerActionCanvas: {fileID: 1298559130}
   playerUpgradeCanvas: {fileID: 1247322642}
   endScreenCanvas: {fileID: 296335356}

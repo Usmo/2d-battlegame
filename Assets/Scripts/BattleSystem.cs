@@ -57,6 +57,9 @@ public class BattleSystem : MonoBehaviour
         // Hide action buttons
         HideActionButtons();
 
+        // Play heal animation if animator is found
+        if (hero.animator != null) hero.animator.SetTrigger("Heal");
+
         // End players turn
         EndTurnAndMoveToNextTurn();
     }
@@ -142,6 +145,9 @@ public class BattleSystem : MonoBehaviour
 
             // Respawn enemy with defeated enemy counter modifier
             enemy.RespawnEnemy(defeatedEnemyCount);
+
+            // Play respawn animation if animator is found
+            if (enemy.animator != null) enemy.animator.SetTrigger("Recover");
         }
         else
         {
@@ -210,6 +216,9 @@ public class BattleSystem : MonoBehaviour
         // Respawn both characters
         hero.RespawnHero();
         enemy.RespawnEnemy(defeatedEnemyCount);
+
+        // Play respawn animation if animator is found
+        if (hero.animator != null) hero.animator.SetTrigger("Recover");
 
         // Deactivate end screen
         endScreenCanvas.SetActive(false);
