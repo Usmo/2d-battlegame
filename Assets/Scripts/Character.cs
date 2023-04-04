@@ -22,9 +22,10 @@ public class Character : MonoBehaviour
         // Deduct damageAmount from healthPoints
         healthPoints -= damageAmount;
 
-        // Set health to zero if it reduced below zero
-        if (healthPoints < 0)
+        // Check does character have any health points left
+        if (healthPoints <= 0)
         {
+            // Set health to zero if it reduced below zero
             healthPoints = 0;
 
             // Play death animation if animator is found and character has zero health points

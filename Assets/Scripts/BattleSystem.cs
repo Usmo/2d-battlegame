@@ -18,6 +18,8 @@ public class BattleSystem : MonoBehaviour
     }
     public TurnState turnState;
     public int defeatedEnemyCount = 0;
+    [Range(0, 3)]
+    public float delayBetweenTurns;
 
     // UI variables
     public GameObject playerActionCanvas;
@@ -46,7 +48,7 @@ public class BattleSystem : MonoBehaviour
         enemy.Attack(hero);
 
         // End enemys turn
-        EndTurnAndMoveToNextTurn();
+        checkPlayModeAndEndTurn();
     }
 
     public void HeroHealSelected()
@@ -61,7 +63,7 @@ public class BattleSystem : MonoBehaviour
         if (hero.animator != null) hero.animator.SetTrigger("Heal");
 
         // End players turn
-        EndTurnAndMoveToNextTurn();
+        checkPlayModeAndEndTurn();
     }
 
     public void HeroAttackSelected()
@@ -73,7 +75,7 @@ public class BattleSystem : MonoBehaviour
         HideActionButtons();
 
         // End players turn
-        EndTurnAndMoveToNextTurn();
+        checkPlayModeAndEndTurn();
     }
 
     public void HeroArmorUpgradeSelected()
@@ -86,7 +88,7 @@ public class BattleSystem : MonoBehaviour
 
         // End Upgrade turn phase
         turnState = TurnState.PLAYER_UPGRADE_DONE;
-        EndTurnAndMoveToNextTurn();
+        checkPlayModeAndEndTurn();
     }
 
     public void HeroWeaponUpgradeSelected()
@@ -99,7 +101,7 @@ public class BattleSystem : MonoBehaviour
 
         // End Upgrade turn phase
         turnState = TurnState.PLAYER_UPGRADE_DONE;
-        EndTurnAndMoveToNextTurn();
+        checkPlayModeAndEndTurn();
     }
 
     public void ShowActionButtons()
@@ -126,7 +128,6 @@ public class BattleSystem : MonoBehaviour
 
     public void EndTurnAndMoveToNextTurn()
     {
-        
         if (hero.healthPoints == 0f)
         {
             // End game if hero is at zero health points
@@ -201,7 +202,7 @@ public class BattleSystem : MonoBehaviour
         // Update EndText if it is assigned
         if (endText != null)
         {
-            endText.text = "Game over! Defeated advesaries: " + defeatedEnemyCount;
+            endText.text = "Game over! You defeated enemy " + defeatedEnemyCount + " times.";
         }
 
         // Activate end screen
@@ -244,4 +245,25 @@ public class BattleSystem : MonoBehaviour
         roundedAttack = Math.Round(hero.attackPoints, 1);
         heroStatsText.text = "Hero attack: " + roundedAttack + " Hero HP: " + roundedHP + "/" + roundedMaxHP;
     }
+
+    IEnumerator EndTurnAfterDelay()
+    {
+        // Wait for configured delay before proceeding
+        yield return new WaitForSeconds(delayBetweenTurns);
+        EndTurnAndMoveToNextTurn();
+    }
+
+    void checkPlayModeAndEndTurn()
+    {
+        // End turn with delay if in play mode. End turn instantly if in editor mode (testing).
+        if (Application.isPlaying)
+        {
+            StartCoroutine(EndTurnAfterDelay());
+        }
+        else
+        {
+            EndTurnAndMoveToNextTurn();
+        }
+    }
 }
+    
