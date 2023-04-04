@@ -464,6 +464,7 @@ MonoBehaviour:
   attackPoints: 40
   startingHealthPoints: 100
   startingAttackPoints: 40
+  animator: {fileID: 0}
 --- !u!1 &296335356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,6 +2729,7 @@ MonoBehaviour:
   attackPoints: 10
   startingHealthPoints: 40
   startingAttackPoints: 10
+  animator: {fileID: 0}
 --- !u!1 &1691275882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2925,7 +2927,7 @@ MonoBehaviour:
   enemy: {fileID: 1501415927}
   turnState: 0
   defeatedEnemyCount: 0
-  delayBetweenTurns: 0
+  delayBetweenTurns: 0.66
   playerActionCanvas: {fileID: 1298559130}
   playerUpgradeCanvas: {fileID: 1247322642}
   endScreenCanvas: {fileID: 296335356}
