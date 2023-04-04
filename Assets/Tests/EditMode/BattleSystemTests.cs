@@ -102,6 +102,20 @@ public class BattleSystemTests
     }
 
     [Test]
+    public void HeroArmorUpgradeSelected_SetTurnStateTo_PLAYER_TURN()
+    {
+        // ARRANGE
+        hero.healthPoints = 1f;
+        enemy.healthPoints = 1f;
+
+        // ACT
+        battleSystem.HeroArmorUpgradeSelected();
+
+        // ASSERT
+        Assert.AreEqual(BattleSystem.TurnState.PLAYER_TURN, battleSystem.turnState);
+    }
+
+    [Test]
     public void HeroWeaponUpgradeSelected_IncreasesHeroAttackPoints()
     {
         // ARRANGE
@@ -112,6 +126,20 @@ public class BattleSystemTests
 
         // ASSERT
         Assert.Greater(battleSystem.hero.attackPoints, 15f);
+    }
+
+    [Test]
+    public void HeroWeaponUpgradeSelected_SetTurnStateTo_PLAYER_TURN()
+    {
+        // ARRANGE
+        hero.healthPoints = 1f;
+        enemy.healthPoints = 1f;
+
+        // ACT
+        battleSystem.HeroWeaponUpgradeSelected();
+
+        // ASSERT
+        Assert.AreEqual(BattleSystem.TurnState.PLAYER_TURN, battleSystem.turnState);
     }
 
     [Test]
